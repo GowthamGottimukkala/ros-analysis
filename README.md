@@ -17,6 +17,10 @@ Before running the pipeline.py script, the following structure is required.
     - contains images for each frame
   - label_2
     - contains ground truth labels (can be multiple) for each frame
+  - car
+    - contains subdirectories of frames. Each subdirectory has rawdata and clusterdata for each attack angle
+  - pedestrian
+    - contains subdirectories of frames. Each subdirectory has rawdata and clusterdata for each attack angle
 - An empty directory for output
 
 ## Scripts
