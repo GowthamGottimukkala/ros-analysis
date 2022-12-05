@@ -302,7 +302,7 @@ def show_iou_for_each_attack_angle(lidarData, lidarClustersData, img, labels, ca
     
 
 if __name__ == '__main__':
-    path = ["100_samples/car","100_samples/pedestrian"]
+    path = ["data/car","data/pedestrian"]
     calibPath = "data/calib"
     labelPath = "data/label_2"
     imgPath = "data/image_2"
@@ -317,7 +317,7 @@ if __name__ == '__main__':
         output.append([])
         for sample in obstacle:
             calibData = read_calib_file(calibPath + "/" + sample + ".txt")
-            labelData = load_label(labelPath + "/" + sample + ".txt")
+            labelData = load_label(labelPath + "/" + sample + ".txt")   
             img = cv2.cvtColor(cv2.imread(imgPath + "/" + sample + ".png"), cv2.COLOR_BGR2RGB)
             img_height, img_width, img_channel = img.shape
             for attackAngle in range(maxAttackAngle[i]+1):
@@ -337,5 +337,5 @@ if __name__ == '__main__':
     write_contents_to_csv(output[0], "output-vehicle.csv")
     write_contents_to_csv(output[1], "output-pedestrian.csv")
     draw_attack_vs_iou_graph(attackAngleIoU[0], attackAngleIoU[1])
-    show_gt_boundingboxes(lidarData[0][0].imgdata, lidarData[0][0].labeldata)
-    show_iou_for_each_attack_angle([x.rawdata for x in lidarData[0]][:3], [x.clusterdata for x in lidarData[0]][:3], lidarData[0][0].imgdata, lidarData[0][0].labeldata, lidarData[0][0].calibdata, [x.attackangle for x in lidarData[0]][:3])
+    # show_gt_boundingboxes(lidarData[0][0].imgdata, lidarData[0][0].labeldata)
+    show_iou_for_each_attack_angle([x.rawdata for x in lidarData[1]][:3], [x.clusterdata for x in lidarData[1]][:3], lidarData[1][0].imgdata, lidarData[1][0].labeldata, lidarData[1][0].calibdata, [x.attackangle for x in lidarData[1]][:3])

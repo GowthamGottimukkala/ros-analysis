@@ -1,0 +1,10 @@
+Rawdata path,Clusterdata path,IoU
+data/pedestrian/000195/000195_0.bin,data/pedestrian/000195/000195_0_clusters_0.bin,0.7974198643127804
+data/pedestrian/000195/000195_1.bin,data/pedestrian/000195/000195_1_clusters_0.bin,0.7974198643127804
+data/pedestrian/000195/000195_2.bin,data/pedestrian/000195/000195_2_clusters_0.bin,0.3261451265490494
+data/pedestrian/000195/000195_3.bin,data/pedestrian/000195/000195_3_clusters_0.bin,0
+data/pedestrian/000195/000195_4.bin,data/pedestrian/000195/000195_4_clusters_0.bin,0
+data/pedestrian/000195/000195_5.bin,data/pedestrian/000195/000195_5_clusters_0.bin,0
+data/pedestrian/000195/000195_6.bin,data/pedestrian/000195/000195_6_clusters_0.bin,0
+data/pedestrian/000195/000195_7.bin,data/pedestrian/000195/000195_7_clusters_0.bin,0
+data/pedestrian/000195/000195_8.bin,data/pedestrian/000195/000195_8_clusters_0.bin,0
