@@ -98,7 +98,7 @@ def bounding_box(points, min_x, max_x, min_y, max_y, min_z, max_z):
     bound_z = np.logical_and(points[:, 2] > min_z, points[:, 2] < max_z)
     bb_filter = np.logical_and(np.logical_and(bound_x, bound_y), bound_z)
     return bb_filter
-def filterPointClouds(bagPath, topic, xmin, xmax, ymin, ymax, zmin, zmax, tmin, tmax, publishingTopic):
+def filter_pointclouds(bagPath, topic, xmin, xmax, ymin, ymax, zmin, zmax, tmin, tmax, publishingTopic):
     bag = rosbag.Bag(bagPath)
     final = []
     pub = rospy.Publisher(publishingTopic, PointCloud2)
