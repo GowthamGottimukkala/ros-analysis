@@ -3,6 +3,7 @@ import open3d
 import cv2
 import csv
 import sys
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import namedtuple
@@ -203,13 +204,14 @@ def getIoUImage(img, gtCoord, predictedCoord, iou):
     return img
 
 
-def draw_attack_vs_iou_graph(attackAngleIoUVehicle, attackAngleIoUPedestrian):
+def draw_attack_vs_iou_graph(attackAngleIoUVehicle, attackAngleIoUPedestrian, outputpath):
     plt.plot(list(attackAngleIoUVehicle.keys()), list(attackAngleIoUVehicle.values()), label = "Vehicle")
     plt.plot(list(attackAngleIoUPedestrian.keys()), list(attackAngleIoUPedestrian.values()), label = "Pedestrian")
     plt.xlabel("Attack Angle (degrees)")
     plt.ylabel("IoU (0-1)")
     plt.title("Avg IoU vs Attack angle")
     plt.legend()
+    plt.savefig(outputpath)
     plt.show()
 
 
@@ -296,16 +298,18 @@ def show_iou_for_each_attack_angle(lidarData, lidarClustersData, img, labels, ca
         axs[i,2].set_yticks([])
     plt.subplots_adjust(left=0, right=1, bottom=0, top=0.95, wspace=0.05, hspace=0.05)
     plt.show()
-    # print(ious)
-    # draw_attack_vs_iou_graph(attackAngles, ious)
 
-    
 
 if __name__ == '__main__':
-    path = ["data/car","data/pedestrian"]
-    calibPath = "data/calib"
-    labelPath = "data/label_2"
-    imgPath = "data/image_2"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-datapath", "--datapath", help="Directory path for the data folder")
+    parser.add_argument("-outputpath", "--outputpath", help="Directory path for the output folder")
+    args = parser.parse_args()
+    path = [os.path.join(args.datapath, "car"), os.path.join(args.datapath, "pedestrian")]
+    calibPath = os.path.join(args.datapath, "calib")
+    labelPath = os.path.join(args.datapath, "label_2")
+    imgPath = os.path.join(args.datapath, "image_2")
+
     samples = [next(os.walk(path[0]))[1], next(os.walk(path[1]))[1]]
     lidarData = []
     output = []
@@ -334,8 +338,9 @@ if __name__ == '__main__':
     
     attackAngleIoU[0] = avg_iou_for_each_attack_angle(lidarData[0], output[0])
     attackAngleIoU[1] = avg_iou_for_each_attack_angle(lidarData[1], output[1])
-    write_contents_to_csv(output[0], "output-vehicle.csv")
-    write_contents_to_csv(output[1], "output-pedestrian.csv")
-    draw_attack_vs_iou_graph(attackAngleIoU[0], attackAngleIoU[1])
-    # show_gt_boundingboxes(lidarData[0][0].imgdata, lidarData[0][0].labeldata)
+    write_contents_to_csv(output[0], os.path.join(args.outputpath, "vehicle.csv"))
+    write_contents_to_csv(output[1], os.path.join(args.outputpath, "pedestrian.csv"))
+    draw_attack_vs_iou_graph(attackAngleIoU[0], attackAngleIoU[1], os.path.join(args.outputpath, "avgIoUvsAttackAngle.png"))
+    # shows variations for one sample
     show_iou_for_each_attack_angle([x.rawdata for x in lidarData[1]][:3], [x.clusterdata for x in lidarData[1]][:3], lidarData[1][0].imgdata, lidarData[1][0].labeldata, lidarData[1][0].calibdata, [x.attackangle for x in lidarData[1]][:3])
+    # show_gt_boundingboxes(lidarData[0][0].imgdata, lidarData[0][0].labeldata)
